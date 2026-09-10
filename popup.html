@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TubeRestyle</title>
+  <style>
+    :root {
+      --bg: #0f0f11;
+      --card-bg: #191a1f;
+      --card-hover: #22232a;
+      --border: #2d2f39;
+      --text: #ffffff;
+      --text-muted: #959aa8;
+      --netflix-red: #e50914;
+      --ig-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 330px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 18px 20px 16px;
+      user-select: none;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand-title span.red { color: var(--netflix-red); }
+    .brand-title span.gradient {
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .status-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(70, 211, 105, 0.15);
+      color: #46d369;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .status-pill.off {
+      background: rgba(149, 154, 168, 0.15);
+      color: var(--text-muted);
+    }
+
+    /* Master Switch Row */
+    .master-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+    }
+    .master-label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .master-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .switch {
+      position: relative;
+      width: 44px;
+      height: 25px;
+      flex-shrink: 0;
+    }
+    .switch input { display: none; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #393b45;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 19px;
+      height: 19px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .switch input:checked + .slider {
+      background: #3b82f6;
+    }
+    .switch input:checked + .slider::before {
+      transform: translateX(19px);
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* Theme Cards */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .theme-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .theme-card:hover {
+      background: var(--card-hover);
+      border-color: #4a4d5d;
+      transform: translateY(-1px);
+    }
+    .theme-card.active {
+      border-color: #fff;
+      background: #20222a;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.08);
+    }
+
+    /* Specific theme card styling */
+    .theme-card.theme-netflix.active {
+      border-color: var(--netflix-red);
+      box-shadow: 0 0 18px rgba(229, 9, 20, 0.25);
+    }
+    .theme-card.theme-instagram.active {
+      border-color: #dc2743;
+      box-shadow: 0 0 18px rgba(220, 39, 67, 0.25);
+    }
+
+    .theme-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .theme-badge.netflix {
+      background: var(--netflix-red);
+      color: #fff;
+      font-family: Impact, sans-serif;
+      letter-spacing: -0.5px;
+    }
+    .theme-badge.instagram {
+      background: var(--ig-gradient);
+      color: #fff;
+    }
+    .theme-badge.instagram svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+
+    .theme-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .theme-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .theme-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-card.active .theme-check {
+      background: #fff;
+      border-color: #fff;
+    }
+    .theme-card.theme-netflix.active .theme-check {
+      background: var(--netflix-red);
+      border-color: var(--netflix-red);
+    }
+    .theme-card.theme-instagram.active .theme-check {
+      background: #dc2743;
+      border-color: #dc2743;
+    }
+    .theme-check svg {
+      width: 10px;
+      height: 10px;
+      fill: #fff;
+      display: none;
+    }
+    .theme-card.active .theme-check svg {
+      display: block;
+    }
+
+    /* Footer Hint */
+    .footer-hint {
+      text-align: center;
+      font-size: 11px;
+      color: #6c7182;
+      line-height: 1.4;
+      padding-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand-title">
+      <span class="red">NETFLIX</span> &bull; <span class="gradient">INSTAGRAM</span>
+    </div>
+    <div class="status-pill" id="status-pill">ACTIVE</div>
+  </div>
+
+  <div class="master-row">
+    <div>
+      <div class="master-label">Restyle YouTube</div>
+      <div class="master-sub">Switch between platforms</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="section-title">Select Interface</div>
+
+  <div class="theme-grid">
+    <!-- Netflix Option -->
+    <div class="theme-card theme-netflix" id="card-netflix" data-theme="netflix">
+      <div class="theme-check">
+        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+      </div>
+      <div class="theme-badge netflix">N</div>
+      <div>
+        <div class="theme-name">Netflix</div>
+        <div class="theme-desc">Hero banner &amp; cinema rows</div>
+      </div>
+    </div>
+
+    <!-- Instagram Option -->
+    <div class="theme-card theme-instagram" id="card-instagram" data-theme="instagram">
+      <div class="theme-check">
+        <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+      </div>
+      <div class="theme-badge instagram">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="theme-name">Instagram</div>
+        <div class="theme-desc">Stories, feed &amp; reels</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-hint">Changes apply instantly to open YouTube tabs.</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "NetflixTube & InstaTube",
+  "version": "2.0.0",
+  "description": "Turns YouTube into Netflix or Instagram. Pixel-perfect UI switcher with one click.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["netflix.css", "instagram.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["netflix.css", "instagram.css", "assets/*"],
+      "matches": ["*://*.youtube.com/*"]
+    }
+  ]
+}
